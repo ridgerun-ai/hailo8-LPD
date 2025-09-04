@@ -1,22 +1,62 @@
 # Hailo-8 License Plate Detection (LPD)
 
-This project enables real-time **license plate detection on vehicle videos** using the powerful **Hailo-8 AI accelerator**.
+This repository contains a **License Plate Detection (LPD) library** built for the **Hailo-8 AI accelerator**, along with a simple yet powerful application to test it in real time.
 
-Whether you want to run fast inference directly from the terminal or explore a user-friendly GUI, this repository provides everything you need to get started.
+With this library you can:
+
+* 🚗 Detect license plates from vehicle videos in real time
+* ⚡ Run ultra-fast inference directly on Hailo-8 hardware
+* 🖥️ Use either a **command-line tool** or a **user-friendly GUI**
+
+Whether you’re prototyping, building a production system, or just experimenting with Hailo-8, this project gives you everything you need to get started.
+
+---
+
+## 🌍 Environment Setup
+
+The project relies on the **TAPPAS workspace**, which is the directory where you have the **TAPPAS repository** cloned.
+
+To simplify usage across commands, define it as an environment variable:
+
+```bash
+export TAPPAS_WORKSPACE=/local/workspace/tappas
+```
+
+* If you are using the **official Hailo container** (`hailo_ai_sw_suite_docker_run.sh`), the default directory is:
+
+  ```
+  /local/workspace/tappas
+  ```
+
+* If your TAPPAS repository is located elsewhere, simply update the environment variable to point to that path.
+
+You’ll reuse `$TAPPAS_WORKSPACE` throughout all build and run instructions.
 
 ---
 
 ## 🚀 LPD Library
 
+### Fix pkg-config (Required Once)
+
+Before building, you need to apply a **one-time fix** for a known issue in the TAPPAS library’s `pkg-config`.
+Run the following command:
+
+```bash
+$TAPPAS_WORKSPACE/scripts/misc/pkg_config_setup.sh --target-platform x86_64
+```
+
+---
+
 ### Build & Install the LPD Library
 
-First, make sure you have **ninja-build** installed:
+First, install dependencies:
 
 ```bash
 sudo apt install ninja-build
 ```
 
-Then, build and install the library from the `lpd_lib` directory (located in the root of this repository):
+Make sure you are in the root of this repository (the same directory where this README is located).
+Then run the following commands to build and install the library:
 
 ```bash
 cd lpd_lib
@@ -27,26 +67,26 @@ sudo ninja -C builddir install
 
 ---
 
-### Run Inference on an MP4 Video (Terminal)
+## 🎥 Run Inference on a Video (Terminal)
 
-From the root of the repository, you can apply license plate detection to any video with:
+Again, make sure you are in the root of this repository (the same directory where this README is located).
+Apply license plate detection on any MP4 video:
 
 ```bash
-# ./bin/apply_lpd_to_video <tappas_workspace_dir> <input_video> <output_video>
-./bin/apply_lpd_to_video /local/workspace/tappas /local/workspace/hailo8-LPD/lpd_app/gui/assets/video_example.mp4 output.mp4
+./bin/apply_lpd_to_video $TAPPAS_WORKSPACE \
+    ./lpd_app/gui/assets/video_example.mp4 \
+    output.mp4
 ```
 
-This will process the input video and generate a new MP4 file with license plate detection results.
+This will process the input video and generate a new MP4 file annotated with license plate detections.
 
 ---
 
 ## 💻 LPD App (GUI)
 
-For a more interactive experience, use the **Python-based GUI application**.
+For a more interactive workflow, use the **Python-based GUI application**.
 
 ### Installation
-
-Install the Python dependencies and the app itself:
 
 ```bash
 pip3 install -r requirements.txt
@@ -57,10 +97,10 @@ pip3 install .
 
 ### Launch the GUI
 
-Start the application with:
+Run the graphical interface with:
 
 ```bash
-TAPPAS_WORKSPACE=/local/workspace/tappas ./bin/run_gui
+./bin/run_gui
 ```
 
-You’ll get a simple and intuitive interface to apply license plate detection to your videos.
+(make sure `$TAPPAS_WORKSPACE` is set in your environment).
