@@ -32,8 +32,8 @@ sudo ninja -C builddir install
 From the root of the repository, you can apply license plate detection to any video with:
 
 ```bash
-# ./bin/apply_lpd_to_video <tappas_workspace_dir> <install_dir> <input_video> <output_video>
-./bin/apply_lpd_to_video /local/workspace/tappas /local/workspace/rr-lpr-app /local/workspace/hailo8-LPD/lpd_app/gui/assets/video_example.mp4 output.mp4
+# ./bin/apply_lpd_to_video <tappas_workspace_dir> <input_video> <output_video>
+./bin/apply_lpd_to_video /local/workspace/tappas /local/workspace/hailo8-LPD/lpd_app/gui/assets/video_example.mp4 output.mp4
 ```
 
 This will process the input video and generate a new MP4 file with license plate detection results.
@@ -60,7 +60,7 @@ pip3 install .
 Start the application with:
 
 ```bash
-./bin/run_gui
+TAPPAS_WORKSPACE=/local/workspace/tappas ./bin/run_gui
 ```
 
 You’ll get a simple and intuitive interface to apply license plate detection to your videos.

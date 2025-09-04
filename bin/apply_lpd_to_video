@@ -2,16 +2,15 @@
 
 set -e
 
-if [ $# -ne 4 ]; then
-    echo "Usage: $0 <tappas_workspace_dir> <install_dir> <input_video> <output_video>"
+if [ $# -ne 3 ]; then
+    echo "Usage: $0 <tappas_workspace_dir> <input_video> <output_video>"
     exit 1
 fi
 
 # Arguments
 TAPPAS_WORKSPACE_DIR="$1"
-INSTALL_DIR="$2"
-INPUT_VIDEO="$3"
-OUTPUT_VIDEO="$4"
+INPUT_VIDEO="$2"
+OUTPUT_VIDEO="$3"
 
 # Vehicle detection yolov5m 
 VEHICLE_DETECTION_HEF_DIR="$TAPPAS_WORKSPACE/apps/h8/gstreamer/general/license_plate_recognition/resources/yolov5m_vehicles.hef"
@@ -28,7 +27,7 @@ PLATE_DETECTION_CONFIG_DIR="$TAPPAS_WORKSPACE_DIR/apps/h8/gstreamer/general/lice
 PLATE_DETECTION_POSTPROCESS_LIB_DIR="$TAPPAS_WORKSPACE_DIR/apps/h8/gstreamer/libs/post_processes/libyolo_post.so"
 PLATE_DETECTION_POSTPROCESS_FUNCTION="tiny_yolov4_license_plates"
 
-RR_LPR_POSTPROCESS="$INSTALL_DIR/liblpr_postprocess.so"
+RR_LPR_POSTPROCESS="/opt/hailo/tappas/lib/x86_64-linux-gnu/liblpr_postprocess.so"
 
 GST_DEBUG=2 gst-launch-1.0 \
     filesrc location=$INPUT_VIDEO ! \
