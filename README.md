@@ -15,8 +15,11 @@ ninja -C builddir install
 
 ### Apply inference to an MP4 video using the terminal
 
+Go to the root of the repository and run the following command command:
+
 ```bash
-./bin/apply_lpd_to_video /local/workspace/tappas /local/workspace/rr-lpr-app input.mp4 output.mp4
+# ./bin/apply_lpd_to_video <tappas_workspace_dir> <install_dir> <input_video> <output_video>
+./bin/apply_lpd_to_video /local/workspace/tappas /local/workspace/rr-lpr-app /local/workspace/hailo8-LPD/lpd_app/gui/assets/video_example.mp4 output.mp4
 ```
 
 ## LPD App

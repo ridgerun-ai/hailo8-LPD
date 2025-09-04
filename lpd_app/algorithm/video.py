@@ -15,7 +15,7 @@ gi.require_version("Gst", "1.0")
 from gi.repository import Gst, GLib
 
 TAPPAS_WORKSPACE_DIR = "/local/workspace/tappas"
-INSTALL_DIR = "/local/workspace/lpr_hailo8_x86"
+INSTALL_DIR = "/local/workspace/rr-lpr-app"
 
 # Vehicle detection yolov5m
 VEHICLE_DETECTION_HEF_DIR = f"{TAPPAS_WORKSPACE_DIR}/apps/h8/gstreamer/general/license_plate_recognition/resources/yolov5m_vehicles.hef"

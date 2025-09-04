@@ -130,6 +130,7 @@ class App:
             demo.load(js=JS_CODE)
             demo.queue()
             demo.launch(
+                share=True,
                 show_api=False,
                 favicon_path="lpd_app/gui/assets/icon.png",
                 allowed_paths=[
