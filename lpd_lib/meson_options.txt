@@ -1,0 +1,11 @@
+option('tappas_dir',
+  type: 'string',
+  value: '',
+  description: 'Hailo Tappas directory'
+)
+
+option('install_dir',
+  type: 'string',
+  value: '',
+  description: 'Installation directory for the app.'
+)

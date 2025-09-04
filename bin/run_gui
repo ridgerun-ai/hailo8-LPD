@@ -10,7 +10,7 @@
 # a software license from RidgeRun.  All source code changes must be provided
 # back to RidgeRun without any encumbrance.
 
-from web_model_server.gui.app import App
+from lpd_app.gui.app import App
 
 def main():
 
