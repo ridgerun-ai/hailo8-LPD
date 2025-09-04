@@ -42,7 +42,7 @@ class App:
     def apply(self, file):
 
         if not file:
-            raise gr.Error(f"Error, no file uploaded.")
+            raise gr.Error("Error, no file uploaded.")
 
         file_name, file_extension = os.path.splitext(os.path.basename(file))
         output_dir = os.path.dirname(file)
@@ -57,7 +57,11 @@ class App:
         return self.apply_to_video(file, output_file_path)
 
     def clear_output(self, _):
-        return gr.File(value=None, visible=True), gr.Video(value=None), gr.Video(value=None, visible=False)
+        return (
+            gr.File(value=None, visible=True),
+            gr.Video(value=None),
+            gr.Video(value=None, visible=False),
+        )
 
     def input_file_uploaded(self, input_path):
 
@@ -98,9 +102,11 @@ class App:
 
                     with gr.Column():
                         with gr.Row():
-                            video_output = gr.Video(label="Output Video", interactive=False)
+                            video_output = gr.Video(
+                                label="Output Video", interactive=False
+                            )
 
-            examples = gr.Examples(examples=EXAMPLES, inputs=[input_file])
+            gr.Examples(examples=EXAMPLES, inputs=[input_file])
 
             input_file.change(
                 self.input_file_uploaded,
@@ -111,7 +117,9 @@ class App:
                 self.apply, inputs=[input_file], outputs=[video_output]
             )
             button_clear.click(
-                self.clear_output, inputs=input_file, outputs=[input_file, video_output, video_preview]
+                self.clear_output,
+                inputs=input_file,
+                outputs=[input_file, video_output, video_preview],
             )
             input_file.clear(
                 self.clear_output,
