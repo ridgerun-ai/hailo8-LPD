@@ -10,12 +10,12 @@
 
 import gi
 import gradio as gr
+import os
 
 gi.require_version("Gst", "1.0")
 from gi.repository import Gst, GLib
 
-TAPPAS_WORKSPACE_DIR = "/local/workspace/tappas"
-INSTALL_DIR = "/local/workspace/rr-lpr-app"
+TAPPAS_WORKSPACE_DIR = os.getenv("TAPPAS_WORKSPACE", "/local/workspace/tappas")
 
 # Vehicle detection yolov5m
 VEHICLE_DETECTION_HEF_DIR = f"{TAPPAS_WORKSPACE_DIR}/apps/h8/gstreamer/general/license_plate_recognition/resources/yolov5m_vehicles.hef"
@@ -34,7 +34,7 @@ PLATE_DETECTION_POSTPROCESS_LIB_DIR = (
 )
 PLATE_DETECTION_POSTPROCESS_FUNCTION = "tiny_yolov4_license_plates"
 
-RR_LPR_POSTPROCESS = f"{INSTALL_DIR}/liblpr_postprocess.so"
+RR_LPR_POSTPROCESS = "/opt/hailo/tappas/lib/x86_64-linux-gnu/liblpr_postprocess.so"
 
 Gst.init(None)
 
@@ -103,7 +103,9 @@ class VideoProcessor:
         try:
             self.pipeline = Gst.parse_launch(pipeline_str)
         except GLib.GError as e:
-            raise gr.Error(f"An error ocurred while trying to process the video: {e.message}")
+            raise gr.Error(
+                f"An error ocurred while trying to process the video: {e.message}"
+            )
         except Exception as e:
             raise gr.Error(f"An error ocurred while trying to process the video: {e}")
 
