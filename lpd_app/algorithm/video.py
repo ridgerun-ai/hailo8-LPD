@@ -116,13 +116,11 @@ class VideoProcessor:
             t = message.type
             if t == Gst.MessageType.ERROR:
                 err, debug = message.parse_error()
-                print(f"[GSTREAMER RUNTIME ERROR] {err.message}")
                 if debug:
-                    print(f"[DEBUG] {debug}")
+                     raise gr.Error(f"An error ocurred while trying to process the video: {debug}")
                 self.pipeline.set_state(Gst.State.NULL)
                 loop.quit()
             elif t == Gst.MessageType.EOS:
-                print("[GSTREAMER] EOS alcanzado")
                 self.pipeline.set_state(Gst.State.NULL)
                 loop.quit()
 
