@@ -1,5 +1,5 @@
-project('gst-hailo-tools', ['c', 'cpp'],
-  version : '3.31.0',
+project('hailo-8-lpd', ['c', 'cpp'],
+  version : '0.1.0',
   default_options : ['buildtype=release', 'c_std=c11', 'cpp_std=c++17']
 )
 
