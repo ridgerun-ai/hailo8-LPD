@@ -1,0 +1,8 @@
+data/
+.hypothesis/
+__pycache__
+build/
+*egg*
+flagged/
+analytics.db
+.gradio

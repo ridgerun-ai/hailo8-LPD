@@ -1,0 +1,70 @@
+# BASE DOCKER IMAGE
+FROM ubuntu:20.04
+
+########################################################################
+# DOCKER BUILD ARGS
+#
+# In this section you pass in arguments to configure the build, such as
+# GitLab/GitHub user names and API Tokens, etc...
+########################################################################
+ARG USERNAME
+ARG ACCESS_TOKEN
+ARG BRANCH="main"
+
+########################################################################
+# DOCKER BUILD ENVS
+#
+# In this section you define the enviroment variables to configure your
+# dependencies.Enable DEBIAN_FRONTEND for non interactive interface.
+#
+# WARNING: Never add credentials, API tokens or any security data.
+#########################################################################
+ENV DEBIAN_FRONTEND=noninteractive
+ENV GRADIO_SERVER_NAME="0.0.0.0"
+
+########################################################################
+# DOCKER PORTS EXPOSE
+#
+# In this section you can define the ports for comunicating your app 
+# to the internet
+#########################################################################
+EXPOSE 7860
+
+########################################################################
+# INSTALLING DEPENDENCIES
+#
+# In this section you can install all the packages that your application
+# needs, be sure of versions and to UPDATE your APT.
+#########################################################################
+RUN apt-get update && apt-get install -y \
+    git \
+    ffmpeg \
+    build-essential \
+    python3 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory
+WORKDIR /workspace/app
+
+########################################################################
+# INSTALLING GRADIO PLATFOM
+#
+# In this section you can install the interface modified for your own
+# application.
+#########################################################################
+# Cloning Repo for GUI
+RUN git clone -b ${BRANCH} https://${USERNAME}:${ACCESS_TOKEN}@github.com/ridgerun-ai/web-model-server.git
+
+WORKDIR /workspace/app/web-model-server
+
+RUN pip3 install -r requirements.txt \
+    && pip3 install -e . \
+    && chmod +x ./bin/run_gui
+
+########################################################################
+# RUNNING SERVICE
+#
+# In this section you will run the gradio app.
+#########################################################################
+CMD ["./bin/run_gui"]
