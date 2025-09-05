@@ -29,9 +29,9 @@ VEHICLE_DETECTION_POSTPROCESS_FUNCTION="yolov5m_vehicles"
 VEHICLE_CROPPER_FUNCTION="crop_vehicles"
 
 # License Plate detection yolov4
-PLATE_DETECTION_HEF_DIR="$TAPPAS_WORKSPACE_DIR/apps/h8/gstreamer/resources/hef/tiny_yolov4_license_plates.hef"
-PLATE_DETECTION_CONFIG_DIR="$TAPPAS_WORKSPACE_DIR/apps/h8/gstreamer/general/license_plate_recognition/resources/configs/yolov4_license_plate.json"
-PLATE_DETECTION_POSTPROCESS_LIB_DIR="$TAPPAS_WORKSPACE_DIR/apps/h8/gstreamer/libs/post_processes/libyolo_post.so"
+PLATE_DETECTION_HEF_DIR="$TAPPAS_WORKSPACE/apps/h8/gstreamer/resources/hef/tiny_yolov4_license_plates.hef"
+PLATE_DETECTION_CONFIG_DIR="$TAPPAS_WORKSPACE/apps/h8/gstreamer/general/license_plate_recognition/resources/configs/yolov4_license_plate.json"
+PLATE_DETECTION_POSTPROCESS_LIB_DIR="$TAPPAS_WORKSPACE/apps/h8/gstreamer/libs/post_processes/libyolo_post.so"
 PLATE_DETECTION_POSTPROCESS_FUNCTION="tiny_yolov4_license_plates"
 
 RR_LPR_POSTPROCESS="/opt/hailo/tappas/lib/x86_64-linux-gnu/liblpr_postprocess.so"
