@@ -5,10 +5,8 @@ This repository contains a **License Plate Detection (LPD) library** built for t
 With this library you can:
 
 * 🚗 Detect license plates from vehicle videos in real time
-* ⚡ Run ultra-fast inference directly on Hailo-8 hardware
+* ⚡ Run fast inference directly on Hailo-8 hardware
 * 🖥️ Use either a **command-line tool** or a **user-friendly GUI**
-
-Whether you’re prototyping, building a production system, or just experimenting with Hailo-8, this project gives you everything you need to get started.
 
 ---
 
@@ -69,16 +67,26 @@ sudo ninja -C builddir install
 
 ## 🎥 Run Inference on a Video (Terminal)
 
-Again, make sure you are in the root of this repository (the same directory where this README is located).
-Apply license plate detection on any MP4 video:
+Make sure you are in the **root of this repository** (the same directory where this README is located).
+
+The script takes two arguments:
 
 ```bash
-./bin/apply_lpd_to_video $TAPPAS_WORKSPACE \
+Usage:
+    ./bin/apply_lpd_to_video <input_video> <output_video>
+```
+
+### Example
+
+Apply license plate detection to the included demo video:
+
+```bash
+./bin/apply_lpd_to_video \
     ./lpd_app/gui/assets/video_example.mp4 \
     output.mp4
 ```
 
-This will process the input video and generate a new MP4 file annotated with license plate detections.
+This will process the input video and generate a new MP4 file with license plate detection results.
 
 ---
 

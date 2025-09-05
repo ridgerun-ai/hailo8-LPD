@@ -2,15 +2,22 @@
 
 set -e
 
-if [ $# -ne 3 ]; then
-    echo "Usage: $0 <tappas_workspace_dir> <input_video> <output_video>"
+# Check arguments
+if [ $# -ne 2 ]; then
+    echo "Usage: $0 <input_video> <output_video>"
+    exit 1
+fi
+
+# Check TAPPAS_WORKSPACE environment variable
+if [ -z "$TAPPAS_WORKSPACE" ]; then
+    echo "Error: TAPPAS_WORKSPACE is not set."
+    echo "Please define it with: export TAPPAS_WORKSPACE=/path/to/tappas"
     exit 1
 fi
 
 # Arguments
-TAPPAS_WORKSPACE_DIR="$1"
-INPUT_VIDEO="$2"
-OUTPUT_VIDEO="$3"
+INPUT_VIDEO="$1"
+OUTPUT_VIDEO="$2"
 
 # Vehicle detection yolov5m 
 VEHICLE_DETECTION_HEF_DIR="$TAPPAS_WORKSPACE/apps/h8/gstreamer/general/license_plate_recognition/resources/yolov5m_vehicles.hef"
