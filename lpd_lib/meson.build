@@ -14,21 +14,12 @@ if compiler_version_major >= 9
   add_global_arguments('-fconcepts',        language : 'cpp')
 endif
 
-gst_req       = '>= 1.0.0'
-gst_dep       = dependency('gstreamer-1.0',       version : gst_req, fallback : ['gstreamer', 'gst_dep'])
-gst_base_dep  = dependency('gstreamer-base-1.0',  version : gst_req, fallback : ['gstreamer', 'gst_base_dep'])
-gst_app_dep   = dependency('gstreamer-app-1.0',   version : gst_req, fallback : ['gstreamer', 'gst_app_dep'])
-gstvideo_dep  = dependency('gstreamer-video-1.0', version : gst_req, fallback : ['gst-plugins-base', 'video_dep'])
-opencv_dep    = dependency('opencv4', version : '>= 4.0', method : 'pkg-config')
-thread_dep    = dependency('threads')
-
-plugin_deps = [gst_dep, gst_base_dep, gstvideo_dep, gst_app_dep]
-
+gstvideo_dep  = dependency('gstreamer-video-1.0', version : '>= 1.0.0', fallback : ['gst-plugins-base', 'video_dep'])
 tappas_dep = dependency('hailo_tappas')
 
 lpr_postprocess_lib = shared_library('lpr_postprocess',
   lpr_postprocess_source,
-  dependencies        : [plugin_deps, tappas_dep],
+  dependencies        : [gstvideo_dep, tappas_dep],
   gnu_symbol_visibility : 'default',
   install             : true
 )
