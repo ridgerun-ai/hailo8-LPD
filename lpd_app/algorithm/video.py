@@ -102,10 +102,6 @@ class VideoProcessor:
 
         try:
             self.pipeline = Gst.parse_launch(pipeline_str)
-        except GLib.GError as e:
-            raise gr.Error(
-                f"An error ocurred while trying to process the video: {e.message}"
-            )
         except Exception as e:
             raise gr.Error(f"An error ocurred while trying to process the video: {e}")
 
@@ -116,10 +112,9 @@ class VideoProcessor:
             t = message.type
             if t == Gst.MessageType.ERROR:
                 err, debug = message.parse_error()
-                if debug:
-                     raise gr.Error(f"An error ocurred while trying to process the video: {debug}")
                 self.pipeline.set_state(Gst.State.NULL)
                 loop.quit()
+                raise gr.Error(f"An error ocurred while trying to process the video: {debug}")
             elif t == Gst.MessageType.EOS:
                 self.pipeline.set_state(Gst.State.NULL)
                 loop.quit()

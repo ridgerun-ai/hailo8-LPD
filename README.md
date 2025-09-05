@@ -10,6 +10,22 @@ With this library you can:
 
 ---
 
+## ✅ Prerequisites
+
+To use this library you must have **Hailo-8 drivers (HailoRT) v4.20.0** and the **Hailo AI Software Suite** already installed.
+
+We strongly recommend following RidgeRun’s guide and using the **Docker method**, which ships several required binaries prebuilt:
+
+* RidgeRun blog: **Hailo-8 on x86 — First Steps**
+  [https://www.ridgerun.ai/post/hailo-8-x86-first-steps](https://www.ridgerun.ai/post/hailo-8-x86-first-steps)
+
+> **Strict version requirement for this demo:**
+> Use the **2025-01** release of the Hailo AI Software Suite. On the **Hailo Developer Zone** downloads page, you **must** change **“Filter by: Archive”** to locate that specific release. If you skip this, the required version will not appear.
+
+![alt text](assets/hailo_developer_zone.png)
+
+---
+
 ## 🌍 Environment Setup
 
 The project relies on the **TAPPAS workspace**, which is the directory where you have the **TAPPAS repository** cloned.
