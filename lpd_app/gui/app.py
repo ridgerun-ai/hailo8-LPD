@@ -1,4 +1,4 @@
-# Copyright (C) 2024 RidgeRun, LLC (http://www.ridgerun.com)
+# Copyright (C) 2025 RidgeRun, LLC (http://www.ridgerun.com)
 # All Rights Reserved.
 
 # The contents of this software are proprietary and confidential to RidgeRun,
@@ -14,11 +14,10 @@ import os
 from lpd_app.algorithm.video import VideoProcessor
 
 # The name that will be seen in the browser tab
-TITLE_NAME = "TAB NAME"
+TITLE_NAME = "Hailo LPD"
 
 # Load HTML, CSS and JS code
 PRODUCT_INFO_HTML = open("lpd_app/gui/assets/product_info.html").read()
-JS_CODE = open("lpd_app/gui/assets/disable_download.js").read()
 CSS_CODE = open("lpd_app/gui/assets/product_info.css").read()
 
 SUPPORTED_VIDEO_FORMATS = [".mp4"]
@@ -127,7 +126,6 @@ class App:
                 outputs=[input_file, video_output],
             )
 
-            demo.load(js=JS_CODE)
             demo.queue()
             demo.launch(
                 share=True,
