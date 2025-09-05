@@ -128,6 +128,7 @@ class App:
 
             demo.queue()
             demo.launch(
+                server_name="0.0.0.0",
                 share=True,
                 show_api=False,
                 favicon_path="lpd_app/gui/assets/icon.png",
