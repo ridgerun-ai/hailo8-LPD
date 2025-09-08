@@ -1,163 +1,130 @@
-# Application Web Model Server
+# Hailo-8 License Plate Detection (LPD)
 
-> Apply a transformation to an input video using the application library.
+This repository contains a **License Plate Detection (LPD) library** built for the **Hailo-8 AI accelerator**, along with a simple yet powerful application to test it in real time.
 
-## Important Note
+With this library you can:
 
-If your application uses machine learning models that require a GPU, you might want to consider using the serverless solution from Modelbit. If this applies to your case, create a new repository from this template but make sure to select the option to clone all branches:
+* 🚗 Detect license plates from vehicle videos in real time
+* ⚡ Run fast inference directly on Hailo-8 hardware
+* 🖥️ Use either a **command-line tool** or a **user-friendly GUI**
 
-![Screenshot from 2024-10-02 08-30-47](https://github.com/user-attachments/assets/46374c76-1aee-4694-ae17-92c287853270)
+---
 
-![image](https://github.com/user-attachments/assets/04b29ea9-e070-4cc0-bdad-11cf921711ac)
+## ✅ Prerequisites
 
+To use this library you must have **Hailo-8 drivers (HailoRT) v4.20.0** and the **Hailo AI Software Suite** already installed.
 
-- Now in your repository, switch to the "modelbit" branch:
+We strongly recommend following RidgeRun’s guide and using the **Docker method**, which ships several required binaries prebuilt:
+
+* RidgeRun blog: **Hailo-8 on x86 — First Steps**
+  [https://www.ridgerun.ai/post/hailo-8-x86-first-steps](https://www.ridgerun.ai/post/hailo-8-x86-first-steps)
+
+> **Strict version requirement for this demo:**
+> Use the **2025-01** release of the Hailo AI Software Suite. On the **Hailo Developer Zone** downloads page, you **must** change **“Filter by: Archive”** to locate that specific release. If you skip this, the required version will not appear.
+
+![alt text](assets/hailo_developer_zone.png)
+
+---
+
+## 🌍 Environment Setup
+
+The project relies on the **TAPPAS workspace**, which is the directory where you have the **TAPPAS repository** cloned.
+
+To simplify usage across commands, define it as an environment variable:
 
 ```bash
-git checkout modelbit
+export TAPPAS_WORKSPACE=/local/workspace/tappas
 ```
 
-- For more information on how to use Modelbit to host your models, follow this guide: [Modelbit Guide](https://github.com/ridgerun-ai/modelbit)
+* If you are using the **official Hailo container** (`hailo_ai_sw_suite_docker_run.sh`), the default directory is:
 
-## Installing the Project
+  ```
+  /local/workspace/tappas
+  ```
 
-Install the python project and the python required dependencies.
+* If your TAPPAS repository is located elsewhere, simply update the environment variable to point to that path.
 
-```shell
+You’ll reuse `$TAPPAS_WORKSPACE` throughout all build and run instructions.
+
+---
+
+## 🚀 LPD Library
+
+### Fix pkg-config (Required Once)
+
+Before building, you need to apply a **one-time fix** for a known issue in the TAPPAS library’s `pkg-config`.
+Run the following command:
+
+```bash
+$TAPPAS_WORKSPACE/scripts/misc/pkg_config_setup.sh --target-platform x86_64
+```
+
+---
+
+### Build & Install the LPD Library
+
+First, install dependencies:
+
+```bash
+sudo apt install ninja-build
+```
+
+Make sure you are in the root of this repository (the same directory where this README is located).
+Then run the following commands to build and install the library:
+
+```bash
+cd lpd_lib
+meson setup builddir --prefix /opt/hailo/tappas/
+ninja -C builddir
+sudo ninja -C builddir install
+```
+
+---
+
+## 🎥 Run Inference on a Video (Terminal)
+
+Make sure you are in the **root of this repository** (the same directory where this README is located).
+
+The script takes two arguments:
+
+```bash
+Usage:
+    ./bin/apply_lpd_to_video <input_video> <output_video>
+```
+
+### Example
+
+Apply license plate detection to the included demo video:
+
+```bash
+./bin/apply_lpd_to_video \
+    ./lpd_app/gui/assets/video_example.mp4 \
+    output.mp4
+```
+
+This will process the input video and generate a new MP4 file with license plate detection results.
+
+---
+
+## 💻 LPD App (GUI)
+
+For a more interactive workflow, use the **Python-based GUI application**.
+
+### Installation
+
+```bash
 pip3 install -r requirements.txt
 pip3 install .
 ```
 
-Install 3rd dependencies:
-```shell
-sudo apt update && sudo apt upgrade
-sudo apt install ffmpeg
-```
+---
 
-## Apply transformation to video
+### Launch the GUI
 
-To apply transformation to video, run this command:
+Run the graphical interface with:
 
-```shell
-./bin/apply_to_video -i data/people_walking.mp4 -o data/people_walking_transformed.mp4
-```
-
-## Apply transformation to image
-
-To apply transformation to image, run this command:
-
-```shell
-./bin/apply_to_image -i data/seven_faces.png -o data/seven_faces_transformed.png
-```
-
-## Launch the user interface
-
-To launch the user interface, run this command:
-
-```shell
+```bash
 ./bin/run_gui
 ```
 
-## How to set up Gradio Web Model Demo
-
-### Customize visual content
-
-Note 1: Due to the limitations of Gradio components in customizing visual content, HTML and CSS are used for some parts.
-
-Note 2: Gradio uses dark mode and light mode automatically and cannot be disabled which implies the need to have assets for both themes.
-
-#### Font Style
-
-To modify the font, open the file `web_model_server/gui/assets/product_info.css` and change the `font-family` property of the following field:
-
-``` css
-* {
-  font-family: 'WorkSans', Arial, sans-serif;
-}
-```
-
-#### Tab Title Name
-
-This is the name that will be seen in the browser tab, to change the title name, modify the `TITLE_NAME` variable in the file `web_model_server/gui/app.py` 
-
-#### Tab Icon
-
-To add a new tab icon you must copy the image in the directory `web_model_server/gui/assets` with the name `icon.png`
-
-#### Dark and Light Mode
-
-This interface has the ability to change between light and dark model, as shown below:
-
-<div align="center"><img src="assets/dark_light_mode_example.png" alt="mode" width="90%"/></div>
-
-#### Logo
-
-To add a new logo you must copy the images for the dark and light mode in the directory `web_model_server/gui/assets` with the names `dark_logo.png` and `light_logo.png`
-
-To modify the size of the logos or apply your own styles, modify the html `web_model_server/gui/assets/product_info.html` in the section` <!-- Logo -->`
-
-Note: if you want to use different names for the logos you must modify the path in the HTML and you must also add the paths to the file `web_model_server/gui/app.py` (the last lines), in the the `allowed_paths` argument of the `demo.launch()` method.
-
-#### Product Title Name
-
-This is the title shown on the page, to modify the Product Title Name open file `web_model_server/gui/assets/product_info.html` and modify section `<!-- Product Title Name -->`
-
-#### Product Diagram Image
-
-To add a new product diagram image you must copy the images for the dark and light mode in the directory `web_model_server/gui/assets` with the names `dark_diagram.png` and `ligh_diagram.png`
-
-To modify the size of the diagram's images or apply your own styles, modify the html `web_model_server/gui/assets/product_info.html` in the section `<!-- Product Diagram Image -->`
-
-Note: if you want to use different names for the diagram’s you must modify the path in the HTML and you must also add the paths to the file `web_model_server/gui/app.py` (the last lines), in the the `allowed_paths` argument of the `demo.launch()` method.
-
-#### Product Description
-
-To modify the Product Description open file `web_model_server/gui/assets/product_info.html` and modify section `<!-- Product Description -->`
-
-### Modify demo limitations
-
-#### Max Upload File Size
-
-To set the upload file size limit, modify the `MAX_FILE_SIZE` variable in the file `web_model_server/gui/app.py`
-
-#### Max Upload Video Length
-
-To set the upload video length limit, modify the `MAX_VIDEO_LENGHT` variable in the file `web_model_server/gui/app.py`
-
-#### Supported Upload Files
-
-To set the supported upload files formats modify the `SUPPORTED_VIDEO_FORMATS` and `SUPPORTED_IMAGE_FORMATS` lists in the file `web_model_server/gui/app.py`
-
-### Modify process algorithm
-
-For processing, you must modify the `image.py` and `video.py` files located in the folder `web_model_server/algorithm `
-
-The apply methods in the module `image.py` and `video.py` receive the input file path and the output file path as parameters, this method must perform the processing on the input file path and save the result in the output file path
-
-#### About the watermark
-
-The `image.py` and `video.py` "apply" methods use a watermark processor which applies the RidgeRun ai watermark to the output, if you want to change this watermark you must replace the file `web_model_server/assets/rr_watermark.png`
-
-If you do not want to apply the watermark, you only have to remove the lines where the WatermarkProcessor is used:
-
-``` python
-# Create the watermark processor
-self.watermarkProcessor = WatermarkProcessor(input_width, input_height)
-
-# Add watermark to the image
-processed_frame = self.watermarkProcessor.apply_watermark_to_image(processed_frame)
-```
-
-#### Add your custom examples
-To add examples upload the files to the folder `web_model_server/gui/assets` and then add the paths into a list in the file `web_model_server/gui/app.py` in the `EXAMPLES` variable as shown below:
-
-``` python
-EXAMPLE_IMAGE1 = ['web_model_server/gui/assets/image_example.jpg']
-EXAMPLE_VIDEO1 = ['web_model_server/gui/assets/video_example.mp4']
-EXAMPLES = [EXAMPLE_IMAGE1, EXAMPLE_VIDEO1]
-```
-
-Note: The path must be inside square parentheses!
-# Docker Container
-
-This project have been create with the ability to containerize your application. On the [Docker Instructions](docker/README.md) section you can find a template Dockerfile and a demo showing how to deploy your application to a Linux instance with Docker.
+(make sure `$TAPPAS_WORKSPACE` is set in your environment).

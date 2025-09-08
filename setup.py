@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Copyright (C) 2024 RidgeRun, LLC (http://www.ridgerun.com)
+# Copyright (C) 2025 RidgeRun, LLC (http://www.ridgerun.com)
 # All Rights Reserved.
 
 # The contents of this software are proprietary and confidential to RidgeRun,
@@ -26,26 +26,26 @@ with open('requirements.txt') as f:
 # automatically detect tests
 
 
-def web_model_server_test_suite():
+def lpd_app_test_suite():
     test_loader = unittest.TestLoader()
-    test_suite = test_loader.discover('web_model_server', pattern='test_*.py')
+    test_suite = test_loader.discover('lpd_app', pattern='test_*.py')
     return test_suite
 
 
 setup(
-    name='web_model_server',
+    name='lpd_app',
     version='0.1.0',
-    description=("Web Model Server for interface"),
+    description=("Hailo 8 LPD Application"),
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/ridgerun-ai/web-model-server',
+    url='https://github.com/ridgerun-ai/hailo8-LPD',
     author='RidgeRun',
     author_email='support@ridgerun.com',
     # Exclude the tests from the distribution package
     packages=find_packages(
         exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     # Included scripts should be in the bin folder
-    scripts=['bin/apply_to_video', 'bin/apply_to_image', 'bin/run_gui'],
+    scripts=['bin/run_gui'],
     classifiers=[
         'Development Status :: 1 - Planning',
         'Programming Language :: Python :: 3.8',
@@ -55,5 +55,5 @@ setup(
     # Package dependencies
     install_requires=required,
     # tests module name
-    test_suite='setup.web_model_server_test_suite'
+    test_suite='setup.lpd_app_test_suite'
 )
